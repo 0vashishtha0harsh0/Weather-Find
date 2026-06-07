@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Weather App</title>
+<style>
+body{
+background: #1a1a2e;
+justify-content : center;
+display : flex;
+flex-direction : column;
+align-items : center;
+padding-top : 60px;
+min-height : 20px ;
+font-family : Arial;
+}
+
+.input-row{
+width : 400px;
+display : flex ;
+gap : 10px;
+margin-bottom : 20px;
+}
+
+input{
+flex : 1 ;
+padding : 12px ;
+ border-radius: 8px;
+            border: 1px solid #6366f1;
+            background: #1a1a2e;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+.display{
+background : #0f3460;
+color : white ;
+font-size : 32px;
+text-align: right;
+padding : 20px;
+border-radius : 8px;
+margin-bottom : 16px;
+min-height : 60px;
+word-break : break-all;
+}
+
+
+.buttons{
+display : grid;
+grid-template-columns : repeat(4,1fr);
+gap : 10px;
+}
+
+button{
+padding: 12px 20px;
+font-size : 14px;
+color : white;
+background : #6366f1;
+}
+
+button: hover {
+opacity :0.8;
+}
+</style>
+</head>
+<body>
+
+
+<div class = " input-row">
+<input
+	type = "text"
+	id =  "weatherInput"
+	placeholder = "ENTER THE CITY NAME "
+/>
+<button onclick= "findweather()">Find</button>
+</div>
+<div id = "result"></div>
+<script>
+let weatherInput = document.getElementById("weatherInput")
+
+function findweather(){
+fetch('https://wttr.in/' + weatherInput.value + '?format=j1')
+.then(function(response){
+return response.json()
+	})
+.then(function(data){
+let result = document.getElementById("result")
+
+result.innerHTML = ` 
+<div style="
+        margin-top: 24px;
+        background: linear-gradient(135deg, #16213e, #0f3460);
+        padding: 28px;
+        border-radius: 16px;
+        color: white;
+        text-align: center;
+        border: 1px solid #6366f1;
+        max-width: 340px;
+        box-shadow: 0 0 30px rgba(99,102,241,0.2);
+    ">
+
+<h2 style="margin:0; color:#fff; font-size:20px">${data.current_condition[0].temp_C}</h2>
+        <p style="color:#6366f1; font-size:13px; margin:4px 0">@${data.current_condition[0].humidity}</p>
+	<p style="color:#6366f1; font-size:13px; margin:4px 0">@${data.current_condition[0].weatherDesc[0].value}</p>
+	<p style="color:#6366f1; font-size:13px; margin:4px 0">@${data.nearest_area[0].areaName[0].value}</p>
+       
+
+
+</div>
+`
+})	
+}
+</script>
+</body>
+</html>
+	
